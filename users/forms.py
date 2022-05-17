@@ -6,6 +6,7 @@ class RegistrantForm(ModelForm):
     class Meta:
         model = User
         fields = [
+            'kites_id',
             'name',
             'username',
             'password'

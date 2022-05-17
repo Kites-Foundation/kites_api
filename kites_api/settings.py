@@ -153,13 +153,14 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 WHITENOISE_MANIFEST_STRICT = True
+
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
 AWS_SES_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
 AWS_SES_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
-AWS_SES_REGION_NAME = 'us-west-2'
-AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
-AWS_SES_CONFIGURATION_SET = 'my-configuration-set-name'
+AWS_SES_REGION_NAME = 'ap-south-1'
+AWS_SES_REGION_ENDPOINT = 'email-smtp.ap-south-1.amazonaws.com'
+AWS_SES_CONFIGURATION_SET = 'kites'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_BACKEND = "sgbackend.SendGridBackend"

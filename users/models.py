@@ -117,6 +117,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    kites_id = models.CharField(unique=True, verbose_name="Kites ID", blank=True, default="", max_length=6)
     username_validator = UsernameValidator()
     email = models.EmailField(max_length=255, unique=True, verbose_name='Email')
     username = models.CharField(max_length=20, verbose_name='Username', unique=True, validators=[username_validator])
@@ -142,7 +143,7 @@ class User(AbstractUser):
     subject = models.CharField(max_length=100, default='', verbose_name="Subject ( major )", blank=True)
     occupation = models.CharField(max_length=200, verbose_name='Occupation', default='', blank=True)
     gender = models.CharField(max_length=50, default='', blank=True, choices=gender, verbose_name="Gender")
-    date_of_birth = models.CharField(max_length=20, default='', blank=True, verbose_name="Date of Birth")
+    date_of_birth = models.DateField(blank=True, verbose_name="Date Of Birth")
 
     current_address = models.TextField(max_length=200, default='', blank=True, verbose_name="Current Address")
     state_current = models.CharField(max_length=100, choices=states, default='', blank=True,
