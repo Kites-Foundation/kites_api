@@ -1,21 +1,15 @@
 from pathlib import Path
 
+import os
 import environ
 import sentry_sdk
 from healthy_django.healthcheck.django_database import DjangoDatabaseHealthCheck
 from sentry_sdk.integrations.django import DjangoIntegration
+import dj_database_url
+from typing import Any, Dict, Optional
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
-# SECURITY WARNING: don't run with debug turned on in production!
 env = environ.Env(
-    # set casting, default value
     DEBUG=(bool, False)
 )
 
@@ -24,8 +18,21 @@ SECRET_KEY = env("SECRET", default="django-insecure-jow#rf4lx#f6-el@i_0o2m(gfcz%
 
 DEBUG = env("DEBUG", default=True)
 ALLOWED_HOSTS = ["*"]
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", "")
+AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN", "")
+CLOUDFRONT_DOMAIN = env("CLOUDFRONT_DOMAIN", None)
+CLOUDFRONT_ID = env("CLOUDFRONT_ID", None)
+AWS_CLOUDFRONT_KEY = env("AWS_CLOUDFRONT_KEY", None).encode('ascii')
+AWS_CLOUDFRONT_KEY_ID = env("AWS_CLOUDFRONT_KEY_ID", None)
+AWS_SES_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
+AWS_SES_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
+SENTRY_DSN = env("SENTRY_DSN", default="")
 
-# Application definition
+AWS_DEFAULT_ACL = "public-read"
+AWS_S3_REGION_NAME = "ap-south-1"
+AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -42,11 +49,11 @@ CUSTOM_APPS = [
 ]
 
 THIRD_PARTY_APPS = ['rest_framework', 'drf_yasg', 'healthy_django', 'allow_cidr', 'django_ses',
-                    'rest_framework.authtoken', 'rest_framework_simplejwt']
+                    'rest_framework.authtoken', 'rest_framework_simplejwt', 'storages']
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
-CSRF_TRUSTED_ORIGINS = ['https://*.kitesfoundation.org']
+CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', ['https://*.kitesfoundation.org', 'https://*.kites.foundation'])
 
 MIDDLEWARE = [
     'allow_cidr.middleware.AllowCIDRMiddleware',
@@ -90,9 +97,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kites_api.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -100,16 +104,47 @@ DATABASES = {
     },
     'postgres': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kites-4',
-        'USER': 'postgres',
-        'PASSWORD': 'tomahawk@T1',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': env("DB_NAME", 'kites-4'),
+        'USER': env("DB_USER", 'postgres'),
+        'PASSWORD': env("DB_PASSWORD", 'tomahawk@T1'),
+        'HOST': env("DB_HOST", '127.0.0.1'),
+        'PORT': env("DB_PORT", '5432'),
     }
 }
 
+# def get_db_settings(
+#         env_db_url: str,
+#         env_db_timeout: Optional[str] = None,
+# ) -> Dict[str, Any]:
+#     CONN_MAX_AGE = 0 if DEBUG else 600
+#     DB_URL = os.environ.get(env_db_url)
+#     if not DB_URL:
+#         return {}
+#
+#     db_config = dj_database_url.parse(url=DB_URL, conn_max_age=CONN_MAX_AGE)
+#
+#     PG_STATEMENT_TIMEOUT = os.environ.get(env_db_timeout) if env_db_timeout else None
+#     if PG_STATEMENT_TIMEOUT:
+#         db_config["OPTIONS"] = {
+#             "options": f"-c statement_timeout={PG_STATEMENT_TIMEOUT}"
+#         }
+#     return db_config
+#
+#
+# DEFAULT_DB_CONFIG = get_db_settings(
+#     env_db_url="DATABASE_URL", env_db_timeout="PG_STATEMENT_TIMEOUT"
+# )
+#
+# DATABASES = {"default": DEFAULT_DB_CONFIG}
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -126,9 +161,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Kolkata'
@@ -139,41 +171,28 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 WHITENOISE_MANIFEST_STRICT = True
 
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
-AWS_SES_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
-AWS_SES_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
 AWS_SES_REGION_NAME = 'ap-south-1'
 AWS_SES_REGION_ENDPOINT = 'email-smtp.ap-south-1.amazonaws.com'
 AWS_SES_CONFIGURATION_SET = 'kites'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = "sgbackend.SendGridBackend"
-# # SENDGRID_API_KEY = env('SENDGRID_API_KEY')
-#
-# SENDGRID_API_KEY = env('SENDGRID_API_KEY',
-#                        default="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")
-# if not SENDGRID_API_KEY:
-#     raise RuntimeError("SENDGRID API KEY is not set!")
+DEFAULT_FROM_EMAIL = env(
+    "EMAIL_FROM", default="Kites Foundation <info@kitesfoundation.org>"
+)
 
-# CORS fix
 CORS_ORIGIN_ALLOW_ALL = True
-SENTRY_DSN = env("SENTRY_DSN", default="")
 
 default_configuration = [
     DjangoDatabaseHealthCheck("Database", slug="rds-kites", connection_name="default"),
@@ -182,13 +201,8 @@ HEALTHY_DJANGO = default_configuration
 sentry_sdk.init(
     dsn=SENTRY_DSN,
     integrations=[DjangoIntegration()],
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
     traces_sample_rate=0.0,
     auto_session_tracking=True,
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
     send_default_pii=False,
 )
 
@@ -208,10 +222,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
         # 'rest_framework.permissions.IsAuthenticated',
     ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 14,
+    "SEARCH_PARAM": "search_text",
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
     ]
 }
 
@@ -219,5 +237,9 @@ AUTH_USER_MODEL = 'users.User'
 
 SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,
-    'ALGORITHM': 'HS512'
+    'ALGORITHM': 'HS512',
+    "ROTATE_REFRESH_TOKENS": True,
 }
+
+ADMINS = [("""👪""", "hey@syam.dev")]
+MANAGERS = ADMINS

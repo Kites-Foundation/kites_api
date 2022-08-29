@@ -14,7 +14,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   ECS_SERVICE_BACKEND: 'kites-api'
   ECS_CLUSTER: 'kites'
-  ECS_TASK_DEFINITION_BACKEND: './aws/api.json'
+  ECS_TASK_DEFINITION_BACKEND: './aws/kites-api.json'
   CONTAINER_NAME_BACKEND: 'kites-api'
 jobs:
   build-staging:
