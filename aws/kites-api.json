@@ -27,6 +27,14 @@
           "value": "kites-staging-assets"
         },
         {
+          "name": "AWS_S3_CUSTOM_DOMAIN",
+          "value": "https://assets.kites.foundation"
+        },
+        {
+          "name": "CLOUDFRONT_DOMAIN",
+          "value": "https://assets.kites.foundation"
+        },
+        {
           "name": "CSRF_TRUSTED_ORIGINS",
           "value": " \"kitesfoundation.org\", \"kites.foundation\"]"
         },
@@ -80,64 +88,40 @@
           "name": "AWS_SECRET_ACCESS_KEY"
         },
         {
-          "valueFrom": "/care/backend/EMAIL_USER",
-          "name": "EMAIL_USER"
+          "valueFrom": "/kites/api-staging/AWS_SECRET_ACCESS_KEY",
+          "name": "AWS_SECRET_ACCESS_KEY"
         },
         {
-          "valueFrom": "/care/backend/EMAIL_PASSWORD",
-          "name": "EMAIL_PASSWORD"
+          "valueFrom": "/kites/api-staging/CLOUDFRONT_ID",
+          "name": "CLOUDFRONT_ID"
         },
         {
-          "valueFrom": "/care/backend/SNS_ACCESS_KEY",
-          "name": "SNS_ACCESS_KEY"
+          "valueFrom": "/kites/api-staging/AWS_CLOUDFRONT_KEY",
+          "name": "AWS_CLOUDFRONT_KEY"
         },
         {
-          "valueFrom": "/care/backend/SNS_SECRET_KEY",
-          "name": "SNS_SECRET_KEY"
+          "valueFrom": "/kites/api-staging/AWS_CLOUDFRONT_KEY_ID",
+          "name": "AWS_CLOUDFRONT_KEY_ID"
         },
         {
-          "valueFrom": "/care/backend/FILE_UPLOAD_KEY",
-          "name": "FILE_UPLOAD_KEY"
+          "valueFrom": "/kites/api-staging/AWS_SES_ACCESS_KEY_ID",
+          "name": "AWS_SES_ACCESS_KEY_ID"
         },
         {
-          "valueFrom": "/care/backend/FILE_UPLOAD_SECRET",
-          "name": "FILE_UPLOAD_SECRET"
-        },
-        {
-          "valueFrom": "/care/backend/GOOGLE_RECAPTCHA_SITE_KEY",
-          "name": "GOOGLE_RECAPTCHA_SITE_KEY"
-        },
-        {
-          "valueFrom": "/care/backend/GOOGLE_RECAPTCHA_SECRET_KEY",
-          "name": "GOOGLE_RECAPTCHA_SECRET_KEY"
-        },
-        {
-          "valueFrom": "/care/backend/FACILITY_S3_KEY",
-          "name": "FACILITY_S3_KEY"
-        },
-        {
-          "valueFrom": "/care/backend/FACILITY_S3_SECRET",
-          "name": "FACILITY_S3_SECRET"
-        },
-        {
-          "valueFrom": "/care/backend/VAPID_PUBLIC_KEY",
-          "name": "VAPID_PUBLIC_KEY"
-        },
-        {
-          "valueFrom": "/care/backend/VAPID_PRIVATE_KEY",
-          "name": "VAPID_PRIVATE_KEY"
+          "valueFrom": "/kites/api-staging/AWS_SES_SECRET_ACCESS_KEY",
+          "name": "AWS_SES_SECRET_ACCESS_KEY"
         }
       ],
-      "name": "care-backend"
+      "name": "kites-api"
     }
   ],
   "memory": "512",
   "taskRoleArn": "arn:aws:iam::661357619761:role/ecsTaskExecutionRole",
-  "family": "care",
+  "family": "kites-api",
   "requiresCompatibilities": [
     "FARGATE"
   ],
   "networkMode": "awsvpc",
   "cpu": "256",
-  "volumes": [],
+  "volumes": []
 }
