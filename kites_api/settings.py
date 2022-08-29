@@ -97,45 +97,45 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kites_api.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'postgres': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env("DB_NAME", 'kites-4'),
-        'USER': env("DB_USER", 'postgres'),
-        'PASSWORD': env("DB_PASSWORD", 'tomahawk@T1'),
-        'HOST': env("DB_HOST", '127.0.0.1'),
-        'PORT': env("DB_PORT", '5432'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     },
+#     'postgres': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': env("DB_NAME", 'kites-4'),
+#         'USER': env("DB_USER", 'postgres'),
+#         'PASSWORD': env("DB_PASSWORD", 'tomahawk@T1'),
+#         'HOST': env("DB_HOST", '127.0.0.1'),
+#         'PORT': env("DB_PORT", '5432'),
+#     }
+# }
 
-# def get_db_settings(
-#         env_db_url: str,
-#         env_db_timeout: Optional[str] = None,
-# ) -> Dict[str, Any]:
-#     CONN_MAX_AGE = 0 if DEBUG else 600
-#     DB_URL = os.environ.get(env_db_url)
-#     if not DB_URL:
-#         return {}
-#
-#     db_config = dj_database_url.parse(url=DB_URL, conn_max_age=CONN_MAX_AGE)
-#
-#     PG_STATEMENT_TIMEOUT = os.environ.get(env_db_timeout) if env_db_timeout else None
-#     if PG_STATEMENT_TIMEOUT:
-#         db_config["OPTIONS"] = {
-#             "options": f"-c statement_timeout={PG_STATEMENT_TIMEOUT}"
-#         }
-#     return db_config
-#
-#
-# DEFAULT_DB_CONFIG = get_db_settings(
-#     env_db_url="DATABASE_URL", env_db_timeout="PG_STATEMENT_TIMEOUT"
-# )
-#
-# DATABASES = {"default": DEFAULT_DB_CONFIG}
+def get_db_settings(
+        env_db_url: str,
+        env_db_timeout: Optional[str] = None,
+) -> Dict[str, Any]:
+    CONN_MAX_AGE = 0 if DEBUG else 600
+    DB_URL = os.environ.get(env_db_url)
+    if not DB_URL:
+        return {}
+
+    db_config = dj_database_url.parse(url=DB_URL, conn_max_age=CONN_MAX_AGE)
+
+    PG_STATEMENT_TIMEOUT = os.environ.get(env_db_timeout) if env_db_timeout else None
+    if PG_STATEMENT_TIMEOUT:
+        db_config["OPTIONS"] = {
+            "options": f"-c statement_timeout={PG_STATEMENT_TIMEOUT}"
+        }
+    return db_config
+
+
+DEFAULT_DB_CONFIG = get_db_settings(
+    env_db_url="DATABASE_URL", env_db_timeout="PG_STATEMENT_TIMEOUT"
+)
+
+DATABASES = {"default": DEFAULT_DB_CONFIG}
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
