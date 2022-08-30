@@ -19,7 +19,7 @@
         }
       ],
       "command": [
-        "/app/start.sh"
+        "/opt/app/kites_api/start.sh"
       ],
       "environment": [
         {
@@ -51,9 +51,6 @@
           "value": "postgres"
         }
       ],
-      "repositoryCredentials": {
-        "credentialsParameter": "arn:aws:secretsmanager:ap-south-1:661357619761:secret:/github/pat-uuV9ZA"
-      },
       "secrets": [
                 {
           "valueFrom": "/kites/api-staging/EMAIL_FROM",
