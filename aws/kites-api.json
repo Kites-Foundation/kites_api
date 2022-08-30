@@ -88,10 +88,6 @@
           "name": "AWS_SECRET_ACCESS_KEY"
         },
         {
-          "valueFrom": "/kites/api-staging/AWS_SECRET_ACCESS_KEY",
-          "name": "AWS_SECRET_ACCESS_KEY"
-        },
-        {
           "valueFrom": "/kites/api-staging/CLOUDFRONT_ID",
           "name": "CLOUDFRONT_ID"
         },
