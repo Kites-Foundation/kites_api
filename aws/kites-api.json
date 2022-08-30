@@ -69,7 +69,7 @@
           "name": "DB_PASSWORD"
         },
         {
-          "valueFrom": "/kites/api-staging/DB_PASSWORD",
+          "valueFrom": "/kites/api-staging/SENTRY_DSN",
           "name": "SENTRY_DSN"
         },
         {
