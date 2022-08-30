@@ -143,7 +143,7 @@ class User(AbstractUser):
     subject = models.CharField(max_length=100, default='', verbose_name="Subject ( major )", blank=True)
     occupation = models.CharField(max_length=200, verbose_name='Occupation', default='', blank=True)
     gender = models.CharField(max_length=50, default='', blank=True, choices=gender, verbose_name="Gender")
-    date_of_birth = models.DateField(blank=True, verbose_name="Date Of Birth", default='')
+    date_of_birth = models.DateTimeField(blank=True, verbose_name="Date Of Birth", null=True)
 
     current_address = models.TextField(max_length=200, default='', blank=True, verbose_name="Current Address")
     state_current = models.CharField(max_length=100, choices=states, default='', blank=True,

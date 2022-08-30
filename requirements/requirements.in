@@ -1,6 +1,7 @@
 Django
 pip-tools
 drf-yasg
+drf-yasg[validation]
 djangorestframework
 psycopg2-binary
 sqlparse
