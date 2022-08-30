@@ -31,7 +31,7 @@ SENTRY_DSN = os.environ.get("SENTRY_DSN")
 
 AWS_S3_REGION_NAME = "ap-south-1"
 AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
-
+AWS_S3_USE_SSL = "True"
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
