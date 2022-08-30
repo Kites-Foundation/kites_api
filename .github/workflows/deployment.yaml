@@ -12,6 +12,7 @@ env:
   AWS_DEFAULT_OUTPUT: json
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  ECR_REPOSITORY: 'kites-api'
   ECS_SERVICE_BACKEND: 'kites-api'
   ECS_CLUSTER: 'kites'
   ECS_TASK_DEFINITION_BACKEND: './aws/kites-api.json'
