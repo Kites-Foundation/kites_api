@@ -23,8 +23,8 @@ CLOUDFRONT_DOMAIN = os.environ.get("CLOUDFRONT_DOMAIN", None)
 CLOUDFRONT_ID = os.environ.get("CLOUDFRONT_ID", None)
 AWS_CLOUDFRONT_KEY = os.environ.get("AWS_CLOUDFRONT_KEY", None).encode('ascii')
 AWS_CLOUDFRONT_KEY_ID = os.environ.get("AWS_CLOUDFRONT_KEY_ID", None)
-AWS_SES_ACCESS_KEY_ID = os.environ.get('YOUR-ACCESS-KEY-ID', None)
-AWS_SES_SECRET_ACCESS_KEY = os.environ.get('YOUR-SECRET-ACCESS-KEY', None)
+AWS_SES_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID', None)
+AWS_SES_SECRET_ACCESS_KEY = os.environ.get('AWS_SES_SECRET_ACCESS_KEY', None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
 
 AWS_DEFAULT_ACL = "public-read"
