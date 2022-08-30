@@ -218,3 +218,16 @@ LOGOUT_REDIRECT_URL = "/"
 SERVER_EMAIL = os.environ.get(
     "EMAIL_FROM", default="Kites Foundation <info@kitesfoundation.org>"
 )
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Basic': {
+            'type': 'basic'
+      },
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
