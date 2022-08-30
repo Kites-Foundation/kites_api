@@ -38,11 +38,11 @@
         },
         {
           "name": "AWS_S3_CUSTOM_DOMAIN",
-          "value": "staging-assets.kitesfoundation.org"
+          "value": "assets.kites.foundation"
         },
         {
           "name": "CLOUDFRONT_DOMAIN",
-          "value": "staging-assets.kitesfoundation.org"
+          "value": "assets.kites.foundation"
         },
         {
           "name": "DB_NAME",
