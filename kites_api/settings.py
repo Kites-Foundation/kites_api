@@ -214,3 +214,6 @@ SIMPLE_JWT = {
 ADMINS = [("""👪""", "hey@syam.dev")]
 MANAGERS = ADMINS
 LOGIN_URL = "/user/login"
+SERVER_EMAIL = os.environ.get(
+    "EMAIL_FROM", default="Kites Foundation <info@kitesfoundation.org>"
+)
