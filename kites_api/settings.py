@@ -106,9 +106,6 @@ DATABASES = {
     }
 }
 
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -216,3 +213,4 @@ SIMPLE_JWT = {
 
 ADMINS = [("""👪""", "hey@syam.dev")]
 MANAGERS = ADMINS
+LOGIN_URL = "/user/login"
