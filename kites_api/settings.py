@@ -29,7 +29,6 @@ AWS_SES_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID', None)
 AWS_SES_SECRET_ACCESS_KEY = os.environ.get('AWS_SES_SECRET_ACCESS_KEY', None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN")
 
-AWS_DEFAULT_ACL = "public-read"
 AWS_S3_REGION_NAME = "ap-south-1"
 AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
 
