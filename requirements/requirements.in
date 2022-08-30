@@ -17,13 +17,11 @@ sentry-sdk
 healthy-django
 django-environ
 django-allow-cidr
-redis
 django-ses
 django-ses[events]
 django[argon2]
 djangorestframework-simplejwt
 pygments
 django-storages
-dj-database-url
 boto3
 django-dotenv

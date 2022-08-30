@@ -10,8 +10,8 @@ argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 asgiref==3.5.2
     # via django
-async-timeout==4.0.2
-    # via redis
+attrs==22.1.0
+    # via jsonschema
 boto3==1.24.62
     # via
     #   -r requirements/requirements.in
@@ -47,16 +47,11 @@ cryptography==36.0.2
     #   django-ses
 defusedxml==0.7.1
     # via odfpy
-deprecated==1.2.13
-    # via redis
 diff-match-patch==20200713
     # via django-import-export
-dj-database-url==1.0.0
-    # via -r requirements/requirements.in
 django[argon2]==4.1
     # via
     #   -r requirements/requirements.in
-    #   dj-database-url
     #   django-allow-cidr
     #   django-cors-headers
     #   django-filter
@@ -89,7 +84,7 @@ djangorestframework==3.13.1
     #   drf-yasg
 djangorestframework-simplejwt==5.2.0
     # via -r requirements/requirements.in
-drf-yasg==1.21.3
+drf-yasg[validation]==1.21.3
     # via -r requirements/requirements.in
 et-xmlfile==1.1.0
     # via openpyxl
@@ -109,6 +104,8 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
+jsonschema==4.14.0
+    # via swagger-spec-validator
 markdown==3.4.1
     # via -r requirements/requirements.in
 markuppy==1.14
@@ -124,7 +121,6 @@ packaging==21.3
     #   build
     #   django-allow-cidr
     #   drf-yasg
-    #   redis
 pep517==0.13.0
     # via build
 pip-tools==6.8.0
@@ -141,6 +137,8 @@ pyjwt==2.4.0
     # via djangorestframework-simplejwt
 pyparsing==3.0.9
     # via packaging
+pyrsistent==0.18.1
+    # via jsonschema
 python-dateutil==2.8.2
     # via botocore
 pytz==2022.2.1
@@ -149,9 +147,9 @@ pytz==2022.2.1
     #   djangorestframework
     #   drf-yasg
 pyyaml==6.0
-    # via tablib
-redis==4.3.4
-    # via -r requirements/requirements.in
+    # via
+    #   swagger-spec-validator
+    #   tablib
 requests==2.28.1
     # via
     #   coreapi
@@ -165,11 +163,15 @@ s3transfer==0.6.0
 sentry-sdk==1.9.5
     # via -r requirements/requirements.in
 six==1.16.0
-    # via python-dateutil
+    # via
+    #   python-dateutil
+    #   swagger-spec-validator
 sqlparse==0.4.2
     # via
     #   -r requirements/requirements.in
     #   django
+swagger-spec-validator==2.7.4
+    # via drf-yasg
 tablib[html,ods,xls,xlsx,yaml]==3.2.1
     # via django-import-export
 tomli==2.0.1
@@ -189,8 +191,6 @@ wheel==0.37.1
     # via pip-tools
 whitenoise==6.2.0
     # via -r requirements/requirements.in
-wrapt==1.14.1
-    # via deprecated
 xlrd==2.0.1
     # via tablib
 xlwt==1.3.0
