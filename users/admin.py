@@ -1,14 +1,14 @@
 from django.contrib import admin, messages
 from users import models
 from django_ses.views import DashboardView
-from users.models import User
+from users.models import User, UserProfile
 
 
 class CaseInsensitiveFilter(admin.filters.SimpleListFilter):
     template = 'dropdown_filter.html'
     title: str
     parameter_name: str
-    qs = User.objects.all()
+    qs = UserProfile.objects.all()
 
     def lookups(self, request, model_admin):
         data = self.qs.values_list(self.title)
@@ -39,12 +39,11 @@ class DistrictFilter(CaseInsensitiveFilter):
 
 class UserAdmin(admin.ModelAdmin):
     ordering = ['-id']
-    list_display_links = ('username', 'name')
-    list_display = ('username', 'name', 'email', 'blood_group', 'is_active', 'is_staff',
+    list_display_links = ('username', 'fullname')
+    list_display = ('username', 'fullname', 'email', 'is_active', 'is_staff',
                     'is_superuser')
-    search_fields = ('name__startswith', 'username__startswith', 'contact_number__startswith',
-                     'whatsapp_number__startswith')
-    list_filter = (StateFilter, DistrictFilter, 'is_superuser', 'is_active', 'is_staff', 'qualification')
+    search_fields = ('fullname__startswith', 'username__startswith')
+    list_filter = ('is_superuser', 'is_active', 'is_staff')
 
     def make_active(self, request, queryset):
         queryset.update(is_active=1)
@@ -62,3 +61,17 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.User, UserAdmin)
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    ordering = ['id']
+    list_display_links = ('user',)
+    search_fields = ('contact_number__startswith', 'whatsapp_number__startswith')
+    list_display = ('user', 'state_current', 'district_current', 'area_of_interest', 'blood_group')
+    list_filter = (StateFilter, DistrictFilter, 'state_current', 'district_current', 'area_of_interest', 'qualification', 'blood_group')
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(models.UserProfile, UserProfileAdmin)

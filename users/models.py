@@ -2,7 +2,8 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.core.validators import RegexValidator
-
+from django.db.models import CASCADE
+from kites_api import settings
 
 blood_group_choices = (
     ('A Positive', 'A Positive'),
@@ -13,6 +14,16 @@ blood_group_choices = (
     ('O Negative', 'O Negative'),
     ('AB Positive', 'AB Positive'),
     ('AB Negative', 'AB Negative')
+)
+
+tshirt_size_choices = (
+    ('XS', 'XS'),
+    ('S', 'S'),
+    ('M', 'M'),
+    ('L', 'L'),
+    ('XL', 'XL'),
+    ('XXL', 'XXL'),
+    ('XXL', 'XXL')
 )
 
 education_qualification_choices = (
@@ -117,11 +128,34 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    kites_id = models.CharField(unique=True, verbose_name="Kites ID", blank=True, default="", max_length=6)
     username_validator = UsernameValidator()
     email = models.EmailField(max_length=255, unique=True, verbose_name='Email')
     username = models.CharField(max_length=20, verbose_name='Username', unique=True, validators=[username_validator])
-    name = models.CharField(max_length=200, verbose_name='Name', default='', blank=True)
+    fullname = models.CharField(max_length=200, verbose_name='Name', default='', blank=True)
+    last_login = models.DateTimeField(auto_now=True, blank=True)
+    created_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now_add=True)
+    objects = UserManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    def get_full_name(self):
+        return self.fullname
+
+    def get_short_name(self):
+        return self.username
+
+    def __str__(self):
+        return self.username
+
+    class Meta:
+        verbose_name = 'Users'
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
+    kites_id = models.CharField(unique=True, verbose_name="Kites ID", blank=True, default="", max_length=6)
     phone_number_regex = RegexValidator(
         PHONE_NUMBER_REGEX,
         message="Please Enter 10/11 digit mobile number or landline as 0<std code><phone number>",
@@ -162,24 +196,14 @@ class User(AbstractUser):
     why_kites = models.TextField(max_length=200, default='', blank=True, verbose_name="Why Kites ?")
     why_contribute_community = models.TextField(max_length=200, default='', blank=True,
                                                 verbose_name="How do you wish to contribute to the community ?")
-    profile_image = models.URLField(default='https://cdn.kites.foundation/img/logo.png', blank=True, verbose_name='Profile Image Url')
-    tshirt_size = models.CharField(max_length=10, default='', blank=True)
+    profile_image = models.URLField(default='https://cdn.kites.foundation/img/logo.png', blank=True,
+                                    verbose_name='Profile Image Url')
+    tshirt_size = models.CharField(max_length=10, choices=tshirt_size_choices, default='', blank=True, verbose_name='T shirt Size')
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now=True, blank=True)
-    objects = UserManager()
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
-
-    def get_full_name(self):
-        return self.name
-
-    def get_short_name(self):
-        return self.name
 
     def __str__(self):
-        return self.username
+        return self.user.fullname
 
     class Meta:
-        verbose_name = 'Users'
+        verbose_name = 'User Profile'

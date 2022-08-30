@@ -5,16 +5,7 @@ from users import models
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ('id', 'username', 'name', 'email', 'password',
-                  'kites_id',
-                  'status_text', 'contact_number',
-                  'whatsapp_number', 'area_of_interest', 'blood_group', 'qualification',
-                  'subject', 'occupation', 'gender', 'date_of_birth', 'current_address',
-                  'state_current', 'district_current', 'permanent_address', 'state_permanent',
-                  'district_permanent', 'skills_endorsements', 'previous_volunteering_experience',
-                  'achievements', 'why_kites', 'why_contribute_community',
-                  'profile_image', 'tshirt_size', 'created_on',
-                  'updated_on', 'last_login')
+        fields = ('id', 'username', 'fullname', 'email', 'password', 'created_on', 'updated_on', 'last_login')
         extra_kwargs = {
             'password': {
                 'write_only': True,
@@ -41,5 +32,28 @@ class UserSerializer(serializers.ModelSerializer):
         if 'password' in validated_data:
             password = validated_data.pop('password')
             instance.set_password(password)
+
+        return super().update(instance, validated_data)
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = models.UserProfile
+        fields = ('id', 'user',
+                  'kites_id',
+                  'status_text', 'contact_number',
+                  'whatsapp_number', 'area_of_interest', 'blood_group', 'qualification',
+                  'subject', 'occupation', 'gender', 'date_of_birth', 'current_address',
+                  'state_current', 'district_current', 'permanent_address', 'state_permanent',
+                  'district_permanent', 'skills_endorsements', 'previous_volunteering_experience',
+                  'achievements', 'why_kites', 'why_contribute_community',
+                  'profile_image', 'tshirt_size', 'created_on',
+                  'updated_on')
+        extra_kwargs = {'user': {'read_only': True}}
+
+    def update(self, instance, validated_data):
+        instance.save(validated_data)
 
         return super().update(instance, validated_data)
