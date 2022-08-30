@@ -1,7 +1,5 @@
 .pytest_cache
 __pycache__
-#**/migrations/**
-!**/migrations/__init__.py
 db.*
 .prodEnv
 service.txt
