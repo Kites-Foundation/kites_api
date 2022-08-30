@@ -13,8 +13,8 @@
       },
       "portMappings": [
         {
-          "containerPort": 9000,
-          "hostPort": 9000,
+          "containerPort": 8000,
+          "hostPort": 8000,
           "protocol": "tcp"
         }
       ],
@@ -43,26 +43,26 @@
           "value": "\"kitesfoundation.org\", \"kites.foundation\"]"
         },
         {
-          "name": "EMAIL_FROM",
-          "value": "Kites Foundation <info@kitesfoundation.org>"
-        },
-        {
           "name": "DB_NAME",
           "value": "kites"
         },
         {
           "name": "DB_USER",
-          "value": "kites"
-        },
-        {
-          "name": "DB_PORT",
-          "value": "38454"
+          "value": "postgres"
         }
       ],
       "repositoryCredentials": {
         "credentialsParameter": "arn:aws:secretsmanager:ap-south-1:661357619761:secret:/github/pat-uuV9ZA"
       },
       "secrets": [
+                {
+          "valueFrom": "/kites/api-staging/EMAIL_FROM",
+          "name": "EMAIL_FROM"
+        },
+        {
+          "valueFrom": "/kites/api-staging/DB_PORT",
+          "name": "DB_PORT"
+        },
         {
           "valueFrom": "/kites/api-staging/DB_HOST",
           "name": "DB_HOST"
