@@ -173,9 +173,9 @@ HEALTHY_DJANGO = default_configuration
 sentry_sdk.init(
     dsn=SENTRY_DSN,
     integrations=[DjangoIntegration()],
-    traces_sample_rate=0.0,
+    traces_sample_rate=1.0,
     auto_session_tracking=True,
-    send_default_pii=False,
+    send_default_pii=True,
 )
 
 # SECURITY
