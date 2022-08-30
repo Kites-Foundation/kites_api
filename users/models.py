@@ -16,6 +16,16 @@ blood_group_choices = (
     ('AB Negative', 'AB Negative')
 )
 
+tshirt_size_choices = (
+    ('XS', 'XS'),
+    ('S', 'S'),
+    ('M', 'M'),
+    ('L', 'L'),
+    ('XL', 'XL'),
+    ('XXL', 'XXL'),
+    ('XXL', 'XXL')
+)
+
 education_qualification_choices = (
     ('SSLC', 'SSLC'),
     ('Plus Two', 'Plus Two'),
@@ -121,7 +131,7 @@ class User(AbstractUser):
     username_validator = UsernameValidator()
     email = models.EmailField(max_length=255, unique=True, verbose_name='Email')
     username = models.CharField(max_length=20, verbose_name='Username', unique=True, validators=[username_validator])
-    name = models.CharField(max_length=200, verbose_name='Name', default='', blank=True)
+    fullname = models.CharField(max_length=200, verbose_name='Name', default='', blank=True)
     last_login = models.DateTimeField(auto_now=True, blank=True)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now_add=True)
@@ -131,10 +141,10 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['email']
 
     def get_full_name(self):
-        return self.name
+        return self.fullname
 
     def get_short_name(self):
-        return self.name
+        return self.username
 
     def __str__(self):
         return self.username
@@ -188,12 +198,12 @@ class UserProfile(models.Model):
                                                 verbose_name="How do you wish to contribute to the community ?")
     profile_image = models.URLField(default='https://cdn.kites.foundation/img/logo.png', blank=True,
                                     verbose_name='Profile Image Url')
-    tshirt_size = models.CharField(max_length=10, default='', blank=True)
+    tshirt_size = models.CharField(max_length=10, choices=tshirt_size_choices, default='', blank=True, verbose_name='T shirt Size')
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.name
+        return self.user.fullname
 
     class Meta:
         verbose_name = 'User Profile'
