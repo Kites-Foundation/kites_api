@@ -1,0 +1,127 @@
+{
+  "executionRoleArn": "arn:aws:iam::661357619761:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/kites-api",
+          "awslogs-region": "ap-south-1",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      },
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "hostPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "command": [
+        "/app/start.sh"
+      ],
+      "environment": [
+        {
+          "name": "AWS_STORAGE_BUCKET_NAME",
+          "value": "kites-staging-assets"
+        },
+        {
+          "name": "AWS_S3_CUSTOM_DOMAIN",
+          "value": "https://assets.kites.foundation"
+        },
+        {
+          "name": "CLOUDFRONT_DOMAIN",
+          "value": "https://assets.kites.foundation"
+        },
+        {
+          "name": "CSRF_TRUSTED_ORIGINS",
+          "value": " \"kitesfoundation.org\", \"kites.foundation\"]"
+        },
+        {
+          "name": "DJANGO_ALLOWED_HOSTS",
+          "value": "\"kitesfoundation.org\", \"kites.foundation\"]"
+        },
+        {
+          "name": "DB_NAME",
+          "value": "kites"
+        },
+        {
+          "name": "DB_USER",
+          "value": "postgres"
+        }
+      ],
+      "repositoryCredentials": {
+        "credentialsParameter": "arn:aws:secretsmanager:ap-south-1:661357619761:secret:/github/pat-uuV9ZA"
+      },
+      "secrets": [
+                {
+          "valueFrom": "/kites/api-staging/EMAIL_FROM",
+          "name": "EMAIL_FROM"
+        },
+        {
+          "valueFrom": "/kites/api-staging/DB_PORT",
+          "name": "DB_PORT"
+        },
+        {
+          "valueFrom": "/kites/api-staging/DB_HOST",
+          "name": "DB_HOST"
+        },
+        {
+          "valueFrom": "/kites/api-staging/DB_PASSWORD",
+          "name": "DB_PASSWORD"
+        },
+        {
+          "valueFrom": "/kites/api-staging/DB_PASSWORD",
+          "name": "SENTRY_DSN"
+        },
+        {
+          "valueFrom": "/kites/api-staging/SECRET",
+          "name": "SECRET"
+        },
+        {
+          "valueFrom": "/kites/api-staging/AWS_ACCESS_KEY_ID",
+          "name": "AWS_ACCESS_KEY_ID"
+        },
+        {
+          "valueFrom": "/kites/api-staging/AWS_SECRET_ACCESS_KEY",
+          "name": "AWS_SECRET_ACCESS_KEY"
+        },
+        {
+          "valueFrom": "/kites/api-staging/AWS_SECRET_ACCESS_KEY",
+          "name": "AWS_SECRET_ACCESS_KEY"
+        },
+        {
+          "valueFrom": "/kites/api-staging/CLOUDFRONT_ID",
+          "name": "CLOUDFRONT_ID"
+        },
+        {
+          "valueFrom": "/kites/api-staging/AWS_CLOUDFRONT_KEY",
+          "name": "AWS_CLOUDFRONT_KEY"
+        },
+        {
+          "valueFrom": "/kites/api-staging/AWS_CLOUDFRONT_KEY_ID",
+          "name": "AWS_CLOUDFRONT_KEY_ID"
+        },
+        {
+          "valueFrom": "/kites/api-staging/AWS_SES_ACCESS_KEY_ID",
+          "name": "AWS_SES_ACCESS_KEY_ID"
+        },
+        {
+          "valueFrom": "/kites/api-staging/AWS_SES_SECRET_ACCESS_KEY",
+          "name": "AWS_SES_SECRET_ACCESS_KEY"
+        }
+      ],
+      "name": "kites-api"
+    }
+  ],
+  "memory": "512",
+  "taskRoleArn": "arn:aws:iam::661357619761:role/ecsTaskExecutionRole",
+  "family": "kites-api",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "volumes": []
+}

@@ -21,3 +21,6 @@ django-ses
 django-ses[events]
 djangorestframework-simplejwt
 pygments
+django-storages
+dj-database-url
+boto3
