@@ -52,7 +52,7 @@ THIRD_PARTY_APPS = ['rest_framework', 'drf_yasg', 'healthy_django', 'allow_cidr'
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', ['https://*.kitesfoundation.org', 'https://*.kites.foundation'])
+CSRF_TRUSTED_ORIGINS = ['https://*.kitesfoundation.org', 'https://*.kites.foundation']
 
 MIDDLEWARE = [
     'allow_cidr.middleware.AllowCIDRMiddleware',

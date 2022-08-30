@@ -35,14 +35,6 @@
           "value": "https://assets.kites.foundation"
         },
         {
-          "name": "CSRF_TRUSTED_ORIGINS",
-          "value": "[\"https://kitesfoundation.org\", \"https://kites.foundation\"]"
-        },
-        {
-          "name": "DJANGO_ALLOWED_HOSTS",
-          "value": "[\"https://kitesfoundation.org\", \"https://kites.foundation\"]"
-        },
-        {
           "name": "DB_NAME",
           "value": "kites"
         },
