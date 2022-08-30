@@ -3,32 +3,30 @@ from pathlib import Path
 import os
 import environ
 import sentry_sdk
+import dotenv
 from healthy_django.healthcheck.django_database import DjangoDatabaseHealthCheck
 from sentry_sdk.integrations.django import DjangoIntegration
-import dj_database_url
-from typing import Any, Dict, Optional
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env(
-    DEBUG=(bool, False)
-)
 
-environ.Env.read_env()
-SECRET_KEY = env("SECRET", default="django-insecure-jow#rf4lx#f6-el@i_0o2m(gfcz%0-r6i=8@p1-vtit508olua")
+if Path(".env").is_file():
+    dotenv.read_dotenv(str(BASE_DIR / ".env"))
 
-DEBUG = env("DEBUG", default=True)
+SECRET_KEY = os.environ.get("SECRET", default="django-insecure-jow#rf4lx#f6-el@i_0o2m(gfcz%0-r6i=8@p1-vtit508olua")
+
+DEBUG = os.environ.get("DEBUG", default=True)
 ALLOWED_HOSTS = ["*"]
-AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", "")
-AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", "")
-AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", "")
-AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN", "")
-CLOUDFRONT_DOMAIN = env("CLOUDFRONT_DOMAIN", None)
-CLOUDFRONT_ID = env("CLOUDFRONT_ID", None)
-AWS_CLOUDFRONT_KEY = env("AWS_CLOUDFRONT_KEY", None).encode('ascii')
-AWS_CLOUDFRONT_KEY_ID = env("AWS_CLOUDFRONT_KEY_ID", None)
-AWS_SES_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
-AWS_SES_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
-SENTRY_DSN = env("SENTRY_DSN", default="")
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_CUSTOM_DOMAIN = os.environ.get("AWS_S3_CUSTOM_DOMAIN")
+CLOUDFRONT_DOMAIN = os.environ.get("CLOUDFRONT_DOMAIN", None)
+CLOUDFRONT_ID = os.environ.get("CLOUDFRONT_ID", None)
+AWS_CLOUDFRONT_KEY = os.environ.get("AWS_CLOUDFRONT_KEY", None).encode('ascii')
+AWS_CLOUDFRONT_KEY_ID = os.environ.get("AWS_CLOUDFRONT_KEY_ID", None)
+AWS_SES_ACCESS_KEY_ID = os.environ.get('YOUR-ACCESS-KEY-ID', None)
+AWS_SES_SECRET_ACCESS_KEY = os.environ.get('YOUR-SECRET-ACCESS-KEY', None)
+SENTRY_DSN = os.environ.get("SENTRY_DSN", default="")
 
 AWS_DEFAULT_ACL = "public-read"
 AWS_S3_REGION_NAME = "ap-south-1"
@@ -53,7 +51,7 @@ THIRD_PARTY_APPS = ['rest_framework', 'drf_yasg', 'healthy_django', 'allow_cidr'
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
-CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', ['https://*.kitesfoundation.org', 'https://*.kites.foundation'])
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', ['https://*.kitesfoundation.org', 'https://*.kites.foundation'])
 
 MIDDLEWARE = [
     'allow_cidr.middleware.AllowCIDRMiddleware',
@@ -100,11 +98,11 @@ WSGI_APPLICATION = 'kites_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env("DB_NAME", 'kites-4'),
-        'USER': env("DB_USER", 'postgres'),
-        'PASSWORD': env("DB_PASSWORD", 'tomahawk@T1'),
-        'HOST': env("DB_HOST", '127.0.0.1'),
-        'PORT': env("DB_PORT", '5432'),
+        'NAME': os.environ.get("DB_NAME", 'kites-4'),
+        'USER': os.environ.get("DB_USER", 'postgres'),
+        'PASSWORD': os.environ.get("DB_PASSWORD", 'tomahawk@T1'),
+        'HOST': os.environ.get("DB_HOST", '127.0.0.1'),
+        'PORT': os.environ.get("DB_PORT", '5432'),
     }
 }
 
@@ -163,7 +161,7 @@ AWS_SES_REGION_NAME = 'ap-south-1'
 AWS_SES_REGION_ENDPOINT = 'email-smtp.ap-south-1.amazonaws.com'
 AWS_SES_CONFIGURATION_SET = 'kites'
 
-DEFAULT_FROM_EMAIL = env(
+DEFAULT_FROM_EMAIL = os.environ.get(
     "EMAIL_FROM", default="Kites Foundation <info@kitesfoundation.org>"
 )
 

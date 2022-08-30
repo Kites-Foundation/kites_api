@@ -24,3 +24,4 @@ pygments
 django-storages
 dj-database-url
 boto3
+django-dotenv
