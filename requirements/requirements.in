@@ -3,6 +3,7 @@ pip-tools
 drf-yasg
 drf-yasg[validation]
 djangorestframework
+redis
 psycopg2-binary
 sqlparse
 psycopg2

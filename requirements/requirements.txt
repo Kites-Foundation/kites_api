@@ -10,14 +10,16 @@ argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 asgiref==3.5.2
     # via django
+async-timeout==4.0.2
+    # via redis
 attrs==22.1.0
     # via jsonschema
-boto3==1.24.62
+boto3==1.24.63
     # via
     #   -r requirements/requirements.in
     #   django-ses
     #   healthy-django
-botocore==1.27.62
+botocore==1.27.63
     # via
     #   boto3
     #   s3transfer
@@ -47,6 +49,8 @@ cryptography==36.0.2
     #   django-ses
 defusedxml==0.7.1
     # via odfpy
+deprecated==1.2.13
+    # via redis
 diff-match-patch==20200713
     # via django-import-export
 django[argon2]==4.1
@@ -121,6 +125,7 @@ packaging==21.3
     #   build
     #   django-allow-cidr
     #   drf-yasg
+    #   redis
 pep517==0.13.0
     # via build
 pip-tools==6.8.0
@@ -150,6 +155,8 @@ pyyaml==6.0
     # via
     #   swagger-spec-validator
     #   tablib
+redis==4.3.4
+    # via -r requirements/requirements.in
 requests==2.28.1
     # via
     #   coreapi
@@ -191,6 +198,8 @@ wheel==0.37.1
     # via pip-tools
 whitenoise==6.2.0
     # via -r requirements/requirements.in
+wrapt==1.14.1
+    # via deprecated
 xlrd==2.0.1
     # via tablib
 xlwt==1.3.0
