@@ -36,11 +36,11 @@
         },
         {
           "name": "CSRF_TRUSTED_ORIGINS",
-          "value": "[\"kitesfoundation.org\", \"kites.foundation\"]"
+          "value": "[\"https://kitesfoundation.org\", \"https://kites.foundation\"]"
         },
         {
           "name": "DJANGO_ALLOWED_HOSTS",
-          "value": "[\"kitesfoundation.org\", \"kites.foundation\"]"
+          "value": "[\"https://kitesfoundation.org\", \"https://kites.foundation\"]"
         },
         {
           "name": "DB_NAME",
